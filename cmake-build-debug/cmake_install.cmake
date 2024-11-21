@@ -1,4 +1,4 @@
-# Install script for directory: /Users/deris.o2024/CLionProjects/untitled1
+# Install script for directory: /Users/deris.o2024/CLionProjects/Group1-FloodFill
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/deris.o2024/CLionProjects/untitled1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/deris.o2024/CLionProjects/Group1-FloodFill/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
