@@ -1,13 +1,6 @@
-<h1>
-    Group -1 - Multisets
-</h1>
-<p>Hayden, Logan, Traver, Deris</p>
-
-```Ruby
-Code Preview Stuff
-```
-
+# Group -1 - Flood fill
+Hayden, Logan, Traver, Deris
 
 ## What We Want to Add
-* Performance comparisons between multiset and arrays
-* Comparisons between dynamic arrays, linked lists, and vectors
+* Showing each step as flood fill goes along
+* Make a maze and show flood fill completing it
