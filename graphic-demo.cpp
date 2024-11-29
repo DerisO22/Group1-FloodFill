@@ -19,13 +19,14 @@ int main() {
     image.create(1 * SCALE_FACTOR, 1 * SCALE_FACTOR, sf::Color::White);
     texture.loadFromImage(image);
 
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.setPosition(2 * SCALE_FACTOR, 2 * SCALE_FACTOR);
+    sf::Sprite startingBlock;
+    startingBlock.setTexture(texture);
+    startingBlock.setPosition(2 * SCALE_FACTOR, 2 * SCALE_FACTOR);
+    startingBlock.setColor(sf::Color::Green);
 
     while (window.isOpen()) {
         window.clear(sf::Color::Black);
-        window.draw(sprite);
+        window.draw(startingBlock);
 
         for (const auto &item: itemsToDraw) {
             window.draw(item);
@@ -36,13 +37,15 @@ int main() {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
-                // needed to ensure that the sprites are placed correctly. doing setPosition(mouseX, mouseY) doesn't align them to the correct spots.
+                // needed to ensure that the sprites are placed as a multiple of SCALE_FACTOR.
                 int scaledX = event.mouseButton.x / SCALE_FACTOR;
+                scaledX *= SCALE_FACTOR;
                 int scaledY = event.mouseButton.y / SCALE_FACTOR;
+                scaledY *= SCALE_FACTOR;
 
                 sf::Sprite newSprite;
                 newSprite.setTexture(texture);
-                newSprite.setPosition(scaledX * SCALE_FACTOR, scaledY * SCALE_FACTOR);
+                newSprite.setPosition(scaledX, scaledY);
                 itemsToDraw.push_back(newSprite);
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape) {
