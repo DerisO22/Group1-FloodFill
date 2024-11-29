@@ -5,10 +5,16 @@
 #include <thread>
 using namespace std;
 
-// Src: https://www.geeksforgeeks.org/flood-fill-algorithm-implement-fill-paint/
+// Adapted from https://www.geeksforgeeks.org/flood-fill-algorithm-implement-fill-paint/
 // It was not optimized at all, so I added some stuff
-void floodFillUtil(int x, int y, int targetColor, int replacementColor, vector<vector<int>>& image, vector<vector<bool>>& visited) {
+
+/**
+ * Fills an image starting at coordinates (x,y) with a replacementColor if the point matches targetColor
+ */
+void floodFill(const int x, const int y, const int targetColor, const int replacementColor,
+                   vector<vector<int> > &image, vector<vector<bool> > &visited) {
     int rows = image.size(), cols = image[0].size();
+
     if (x < 0 || x >= rows || y < 0 || y >= cols) {
         return;
     }
@@ -39,32 +45,41 @@ void floodFillUtil(int x, int y, int targetColor, int replacementColor, vector<v
     this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     // Recursive call floodFill
-    floodFillUtil(x - 1, y, targetColor, replacementColor, image, visited);
-    floodFillUtil(x + 1, y, targetColor, replacementColor, image, visited);
-    floodFillUtil(x, y - 1, targetColor, replacementColor, image, visited);
-    floodFillUtil(x, y + 1, targetColor, replacementColor, image, visited);
+    // Wikipedia calls for north, south, west, east
+    floodFill(x, y - 1, targetColor, replacementColor, image, visited);
+    floodFill(x, y + 1, targetColor, replacementColor, image, visited);
+    floodFill(x - 1, y, targetColor, replacementColor, image, visited);
+    floodFill(x + 1, y, targetColor, replacementColor, image, visited);
 }
 
-void floodFill(int x, int y, int replacementColor, vector<vector<int>>& image) {
-    int targetColor = image[x][y];
-    if (targetColor != replacementColor) {
-        // I've added visited vector to optimize the dfs
-        vector<vector<bool>> visited(image.size(), vector<bool>(image[0].size(), false));
-        floodFillUtil(x, y, targetColor, replacementColor, image, visited);
-    }
-}
+
 int main() {
-    vector<vector<int>> image =
-    { {0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-      {1, 1, 1, 1, 1, 0, 0, 1, 1, 1},
-      {1, 1, 1, 0, 0, 0, 0, 0, 1, 1},
-      {1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
-      {1, 1, 1, 0, 0, 1, 0, 1, 1, 1},
-      {1, 1, 1, 0, 0, 0, 0, 1, 1, 1},
-      {1, 1, 0, 0, 0, 1, 1, 1, 1, 1},
-      {1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-      {1, 1, 1, 1, 1, 1, 1, 1, 0, 0} };
+    vector<vector<int> > image =
+    {
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+    };
+    // {
+    //     {0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    //     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    //     {1, 1, 1, 1, 1, 0, 0, 1, 1, 1},
+    //     {1, 1, 1, 0, 0, 0, 0, 0, 1, 1},
+    //     {1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
+    //     {1, 1, 1, 0, 0, 1, 0, 1, 1, 1},
+    //     {1, 1, 1, 0, 0, 0, 0, 1, 1, 1},
+    //     {1, 1, 0, 0, 0, 1, 1, 1, 1, 1},
+    //     {1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+    //     {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}
+    // };
+    vector<vector<bool> > visited(image.size(), vector<bool>(image[0].size(), false));
 
     cout << "Original Image :" << endl;
     //print original matrix;
@@ -84,8 +99,9 @@ int main() {
     cout << "Enter a replacement color: ";
     cin >> replacementColor;
 
-    floodFill(y - 1, x - 1, replacementColor, image);
+    // floodFill(y - 1, x - 1, replacementColor, image);
 
+    floodFill(x - 1, y - 1, image[x - 1][y - 1], replacementColor, image, visited);
     cout << "\nColored Image:" << endl;
     //print coloured matrix;
     for (int i = 0; i < image.size(); i++) {
