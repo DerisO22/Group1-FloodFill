@@ -45,7 +45,6 @@ void floodFill(const int x, const int y, const int targetColor, const int replac
     this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     // Recursive call floodFill
-    // Wikipedia calls for north, south, west, east
     floodFill(x, y - 1, targetColor, replacementColor, image, visited);
     floodFill(x, y + 1, targetColor, replacementColor, image, visited);
     floodFill(x - 1, y, targetColor, replacementColor, image, visited);
@@ -56,29 +55,17 @@ void floodFill(const int x, const int y, const int targetColor, const int replac
 int main() {
     vector<vector<int> > image =
     {
-        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 0, 0, 0, 0, 0, 0, 2, 2},
-        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 0, 0, 1, 1, 1},
+        {1, 1, 1, 0, 0, 0, 0, 0, 1, 1},
+        {1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
+        {1, 1, 1, 0, 0, 1, 0, 1, 1, 1},
+        {1, 1, 1, 0, 0, 0, 0, 1, 1, 1},
+        {1, 1, 0, 0, 0, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}
     };
-    // {
-    //     {0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    //     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    //     {1, 1, 1, 1, 1, 0, 0, 1, 1, 1},
-    //     {1, 1, 1, 0, 0, 0, 0, 0, 1, 1},
-    //     {1, 1, 1, 0, 1, 0, 0, 1, 1, 1},
-    //     {1, 1, 1, 0, 0, 1, 0, 1, 1, 1},
-    //     {1, 1, 1, 0, 0, 0, 0, 1, 1, 1},
-    //     {1, 1, 0, 0, 0, 1, 1, 1, 1, 1},
-    //     {1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-    //     {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}
-    // };
     vector<vector<bool> > visited(image.size(), vector<bool>(image[0].size(), false));
 
     cout << "Original Image :" << endl;
