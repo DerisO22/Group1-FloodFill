@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 // the scale factor of each pixel. 100 means each pixel is now 100x100 pixels.
-const float SCALE_FACTOR = 100;
+const int SCALE_FACTOR = 100;
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const sf::Color COLOR_TO_REPLACE = sf::Color::Black;
@@ -30,7 +30,11 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
         }
 
         if (image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR) != COLOR_TO_REPLACE) {
-            std::cout << "not filling " << currentX << " " << currentY << ".\n";
+            std::printf("not filling (%d,%d) because the color is rgb(%u,%u,%u)\n", currentX, currentY,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).r,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).g,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).b);
+            visited.push_back({currentX, currentY}); // add to the visited vector so we don't revisit it.
             continue;
         }
 
@@ -64,8 +68,21 @@ int main() {
 
     sf::Image image;
     image.create(WINDOW_WIDTH, WINDOW_HEIGHT, sf::Color::Black);
+    image.setPixel(0, 0, sf::Color::White);
+    image.setPixel(0, 1, sf::Color::White);
+    image.setPixel(0, 2, sf::Color::White);
+    image.setPixel(4, 2, sf::Color::White);
+    image.setPixel(5, 2, sf::Color::White);
+    image.setPixel(6, 2, sf::Color::White);
+
+    image.setPixel(2, 0, sf::Color::Red);
+    image.setPixel(2, 1, sf::Color::Red);
     image.setPixel(2, 2, sf::Color::Red);
-    image.setPixel(5, 5, sf::Color::White);
+    image.setPixel(2, 3, sf::Color::Red);
+    image.setPixel(3, 2, sf::Color::Red);
+    image.setPixel(4, 0, sf::Color::Red);
+    image.setPixel(5, 0, sf::Color::Red);
+
     sf::Texture texture;
     texture.loadFromImage(image);
     sf::Sprite sprite;
