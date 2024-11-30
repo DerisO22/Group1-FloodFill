@@ -8,7 +8,6 @@ const int WINDOW_HEIGHT = 600;
 const sf::Color COLOR_TO_REPLACE = sf::Color::Black;
 const sf::Color REPLACEMENT_COLOR = sf::Color::Magenta;
 
-std::vector<sf::Sprite> itemsToDraw = {};
 sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Stack Demo", sf::Style::Close);
 
 void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture, sf::Sprite &sprite) {
@@ -26,13 +25,16 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
             continue;
         }
 
-        if (image.getPixel(currentX, currentY) != COLOR_TO_REPLACE) {
-            continue;
-        }
         if (std::find(visited.begin(), visited.end(), std::make_pair(currentX, currentY)) != visited.end()) {
             continue;
         }
-        printf("Current is %d %d\n", currentX, currentY);
+
+        if (image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR) != COLOR_TO_REPLACE) {
+            std::cout << "not filling " << currentX << " " << currentY << ".\n";
+            continue;
+        }
+
+        // printf("Current is %d %d\n", currentX, currentY);
         visited.push_back({currentX, currentY});
 
         image.setPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR, REPLACEMENT_COLOR);
@@ -56,16 +58,16 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
 }
 
 int main() {
-    window.setFramerateLimit(10);
+    window.setFramerateLimit(0);
     sf::Vector2i pos = sf::Vector2i(0, 0);
     window.setPosition(pos);
 
     sf::Image image;
     image.create(WINDOW_WIDTH, WINDOW_HEIGHT, sf::Color::Black);
-
+    image.setPixel(2, 2, sf::Color::Red);
+    image.setPixel(5, 5, sf::Color::White);
     sf::Texture texture;
     texture.loadFromImage(image);
-
     sf::Sprite sprite;
     sprite.setScale(SCALE_FACTOR, SCALE_FACTOR);
     sprite.setTexture(texture);
@@ -87,9 +89,7 @@ int main() {
                     floodFill(scaledX, scaledY, image, texture, sprite);
                 }
             }
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape) {
-                itemsToDraw.clear();
-            }
+
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
