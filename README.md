@@ -1,13 +1,8 @@
-<h1>
-    Group -1 - Multisets
-</h1>
-<p>Hayden, Logan, Traver, Deris</p>
+# Group 1 - Flood FIll
+- `main.cpp` contains a demo using `cout` to demonstrate how it can work
+- `graphical-demo` creates a window to demonstrate how filling colors works
+- 
 
 ```Ruby
 Code Preview Stuff
 ```
-
-
-## What We Want to Add
-* Performance comparisons between multiset and arrays
-* Comparisons between dynamic arrays, linked lists, and vectors
