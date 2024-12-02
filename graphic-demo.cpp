@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stack>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 // the scale factor of each pixel. 100 means each pixel is now 100x100 pixels.
@@ -62,7 +64,7 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
 }
 
 int main() {
-    window.setFramerateLimit(0);
+    window.setFramerateLimit(10);
     sf::Vector2i pos = sf::Vector2i(0, 0);
     window.setPosition(pos);
 
