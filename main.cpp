@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-// Src: https://stackoverflow.com/frontieruestions/4184468/sleep-for-milliseconds
+// Src: https://stackoverflow.com/questions/4184468/sleep-for-milliseconds
 #include <chrono>
 #include <thread>
 #include <queue>
