@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include <stack>
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -17,10 +18,59 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
     std::vector<std::pair<int, int> > visited = {};
     container.push(std::make_pair(x, y));
 
-
     while (!container.empty()) {
         int currentX = container.top().first;
         int currentY = container.top().second;
+        container.pop();
+
+        if (currentX < 0 || currentX >= WINDOW_WIDTH || currentY < 0 || currentY >= WINDOW_HEIGHT) {
+            continue;
+        }
+
+        if (std::find(visited.begin(), visited.end(), std::make_pair(currentX, currentY)) != visited.end()) {
+            continue;
+        }
+
+        if (image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR) != COLOR_TO_REPLACE) {
+            std::printf("not filling (%d,%d) because the color is rgb(%u,%u,%u)\n", currentX, currentY,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).r,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).g,
+                        image.getPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR).b);
+            visited.push_back({currentX, currentY}); // add to the visited vector so we don't revisit it.
+            continue;
+        }
+
+        // printf("Current is %d %d\n", currentX, currentY);
+        visited.push_back({currentX, currentY});
+
+        image.setPixel(currentX / SCALE_FACTOR, currentY / SCALE_FACTOR, REPLACEMENT_COLOR);
+        texture.loadFromImage(image);
+
+        window.clear();
+        window.draw(sprite);
+        window.display();
+
+        // these are needed for some reason when ($X, 400) gets pushed, for example.
+        // it keeps adding ($X, 500) to the stack, which then adds ($X, 400) back, which causes an infinite loop
+        if (currentX - (1 * SCALE_FACTOR) >= 0)
+            container.push(std::make_pair(currentX - (1 * SCALE_FACTOR), currentY));
+        if (currentX + (1 * SCALE_FACTOR) < WINDOW_WIDTH)
+            container.push(std::make_pair(currentX + (1 * SCALE_FACTOR), currentY));
+        if (currentY - (1 * SCALE_FACTOR) >= 0)
+            container.push(std::make_pair(currentX, currentY - (1 * SCALE_FACTOR)));
+        if (currentY + (1 * SCALE_FACTOR) < WINDOW_HEIGHT)
+            container.push(std::make_pair(currentX, currentY + (1 * SCALE_FACTOR)));
+    }
+}
+
+void floodFillBFS(const int x, const int y, sf::Image &image, sf::Texture &texture, sf::Sprite &sprite) {
+    std::queue<std::pair<int, int> > container = {};
+    std::vector<std::pair<int, int> > visited = {};
+    container.push(std::make_pair(x, y));
+
+    while (!container.empty()) {
+        int currentX = container.front().first;
+        int currentY = container.front().second;
         container.pop();
 
         if (currentX < 0 || currentX >= WINDOW_WIDTH || currentY < 0 || currentY >= WINDOW_HEIGHT) {
@@ -102,10 +152,9 @@ int main() {
                 int scaledY = event.mouseButton.y / SCALE_FACTOR;
                 scaledY *= SCALE_FACTOR;
 
-
                 printf("Mouse clicked at %d %d\n", scaledX, scaledY);
                 if (scaledX >= 0 && scaledX < WINDOW_WIDTH && scaledY >= 0 && scaledY < WINDOW_HEIGHT) {
-                    floodFill(scaledX, scaledY, image, texture, sprite);
+                    floodFillBFS(scaledX, scaledY, image, texture, sprite);
                 }
             }
 
