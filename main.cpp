@@ -15,7 +15,7 @@ using namespace std;
 /**
  * Fills an image starting at coordinates (x,y) with a replacementColor if the point matches targetColor
  */
-void floodFill(const int x, const int y, const int targetColor, const int replacementColor, vector<vector<int>> &image, vector<vector<bool>> &visited) {
+void floodFill(const int x, const int y, const int targetColor, const int replacementColor, vector<vector<int> > &image, vector<vector<bool> > &visited) {
     int rows = image.size(), cols = image[0].size();
 
     // Base cases
@@ -152,13 +152,17 @@ int main() {
     cout << endl;
 
     int replacementColor, x, y;
+    cout << "The coordinates start at 1 instead of 0.\n";
     cout << "Enter a x-coordinate: ";
     cin >> x;
     cout << "Enter a y-coordinate: ";
     cin >> y;
+    if (x < 1 || y < 1 || x > image.size() || y > image[0].size()) {
+        cout << "Invalid coordinates.\n";
+        return 1;
+    }
     cout << "Enter a replacement color: ";
     cin >> replacementColor;
-
     int choice;
     cout << "Choose Your Approach:" << endl;
     cout << "1. DFS" << endl;
