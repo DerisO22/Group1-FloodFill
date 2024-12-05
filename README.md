@@ -2,9 +2,10 @@
 
 This repository demonstrates two implementations of flood fill. One performs the algorithm in the terminal and the other performs it in a graphical window.
 
-# Building the Project
+# Build the Project
 ## Install SFML
-### From website
+You can install SFML in wto ways:
+### From the website
 Visit https://sfml-dev.org
 
 ### From [Homebrew](https://brew.sh)
