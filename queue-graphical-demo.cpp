@@ -60,7 +60,7 @@ void floodFill(const int x, const int y, sf::Image &image, sf::Texture &texture,
         window.draw(sprite);
         window.display();
 
-        // Add the surround nodes (west, east, north, south) to the stack.
+        // Add the surround nodes (west, east, north, south) to the queue.
         container.push(std::make_pair(currentX - (1 * SCALE_FACTOR), currentY));
         container.push(std::make_pair(currentX + (1 * SCALE_FACTOR), currentY));
         container.push(std::make_pair(currentX, currentY - (1 * SCALE_FACTOR)));
