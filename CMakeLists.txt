@@ -5,11 +5,18 @@ add_executable(terminal-demo
         main.cpp)
 
 
-project(graphic-demo)
+project(stack-graphical-demo)
 find_package(SFML COMPONENTS system window graphics)
 set(SFML_STATIC_LIBRARIES TRUE)
 #set(SFML_DIR "<SFML download dir>/lib/cmake/SFML")
-add_executable(graphic-demo
-        graphic-demo.cpp)
-target_link_libraries(graphic-demo sfml-graphics sfml-system sfml-window)
+add_executable(stack-graphical-demo
+        stack-graphical-demo.cpp)
+target_link_libraries(stack-graphical-demo sfml-graphics sfml-system sfml-window)
 
+project(queue-graphical-demo)
+find_package(SFML COMPONENTS system window graphics)
+set(SFML_STATIC_LIBRARIES TRUE)
+#set(SFML_DIR "<SFML download dir>/lib/cmake/SFML")
+add_executable(queue-graphical-demo
+        queue-graphical-demo.cpp)
+target_link_libraries(queue-graphical-demo sfml-graphics sfml-system sfml-window)
